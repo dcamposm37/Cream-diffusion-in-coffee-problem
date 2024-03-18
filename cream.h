@@ -15,14 +15,15 @@ public:
 // Declaración de la clase Cream
 class Cream {
 public:
-    Cream(std::vector<Molecule> mol);
     std::vector<Molecule> molecules;
-    int time_step;
 
+    int time_step;
 
     void evolve();
 
     // double entropy(nsample);
 
     double size();
+
+    Cream(std::vector<Molecule> mol);
 };

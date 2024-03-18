@@ -43,3 +43,13 @@ double Cream::size() {
 // double Cream::entropy() {
 //    delta = 200/nsample;
 // }
+
+// /////////// PRUEBAS ///////////////////
+// int main(int argc, char const *argv[])
+// {
+//     Molecule mol(pos_ini(10));
+
+//     std::cout << mol.position[0] << mol.position[1] << std::endl;
+
+//     return 0;
+// }
