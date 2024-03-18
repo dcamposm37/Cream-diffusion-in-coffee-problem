@@ -31,12 +31,12 @@ void Cream::evolve() {
 } 
 
 double Cream::size() {
-        double s = 0;
+        double r = 0;
         int N = molecules.size();
         for (int ii = 0; ii < N; ++ii) {
-            s += std::pow(molecules[ii].position[0], 2) + std::pow(molecules[ii].position[1], 2);
+            r += std::pow(molecules[ii].position[0], 2) + std::pow(molecules[ii].position[1], 2);
         }
-        return std::sqrt(s / N);
+        return std::sqrt(r / N);
 }
 
 // double Cream::entropy() {
