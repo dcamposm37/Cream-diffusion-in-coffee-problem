@@ -2,14 +2,15 @@
 
 // Utiliza un generador de números aleatorios para generar un índice aleatorio dentro del rango válido para el 
 //   arreglo proporcionado y devuelve el elemento correspondiente a ese índice. 
-int random_step(std::vector<int>& vec) {
+int random_step() {
+    std::vector<int> step = {-1,1};
     // Generador de números aleatorios
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> distrib(0, vec.size() - 1);
-
+    std::uniform_int_distribution<> distrib(0, step.size() - 1);
+    
     int randomIndex = distrib(gen); // Generar un índice aleatorio
-    return vec[randomIndex]; // Devolver el elemento correspondiente al índice aleatorio
+    return step[randomIndex]; // Devolver el elemento correspondiente al índice aleatorio
 }
 
 // Genera un vector de 2 entradas entre -range y range para las posiciones iniciales de las moleculas
@@ -27,12 +28,10 @@ std::vector<int> pos_ini(int range) {
     return {random1, random2};
 }
 
-int main() {
-    std::vector<int> step = {-1,1};
+// int main() {
+//     std::vector<int> ini_mol = pos_ini(10);
+//     std::cout << random_step() << std::endl; // Imprime primera función
+//     std::cout << ini_mol[0] << std::endl; // Imprime segunda función
     
-    // Ejemplo de uso
-    std::cout << "Elemento aleatorio seleccionado: " << random_step(step) << std::endl;
-    std::cout << "Elemento aleatorio seleccionado: " << random_step(step) << std::endl;
-    
-    return 0;
-}
+//     return 0;
+// }

@@ -14,12 +14,11 @@ public:
 
 // Declaración de la clase Cream
 class Cream {
-private:
+public:
+    Cream(std::vector<Molecule> mol);
     std::vector<Molecule> molecules;
     int time_step;
 
-public:
-    Cream(std::vector<Molecule> mol);
 
     void evolve();
 

@@ -1,16 +1,17 @@
 #include "cream.h"
-
+#include "random69.h"
 
 Molecule::Molecule(std::vector<int> pos) : position(pos) {} //
 
-void Cream::evolve() {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(-1, 1);
+Cream::Cream(std::vector<Molecule> mol) {}
+
+void Cream::evolve()
+{
+    int step = random_step();
 
     for (int ii = 0; ii < molecules.size(); ++ii) {
-        molecules[ii].position[0] += dis(gen);
-        molecules[ii].position[1] += dis(gen);
+        molecules[ii].position[0] += step;
+        molecules[ii].position[1] += step;
 
         // Pared superior y derecha
         if (molecules[ii].position[0] > 100)
@@ -28,7 +29,7 @@ void Cream::evolve() {
 
         time_step++;
     }
-} 
+}
 
 double Cream::size() {
         double r = 0;
