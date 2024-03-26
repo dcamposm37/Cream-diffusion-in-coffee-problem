@@ -1,58 +1,77 @@
 #include "cream.h"
 #include "random69.h"
 
-Molecule::Molecule(std::vector<int> pos) : position(pos) {} //
+void Molecule::moleculeC(std::vector<int> pos){
+    position = pos; //Se inicializa cada molécula con su posición.
+}
 
-Cream::Cream(std::vector<Molecule> mol, int N_molecules) {}
 
-void Cream::evolve()
-{
-    int step = random_step();
+Cream::Cream(double seed, int NMol){
+    randomSeed = seed;
+    N_molecules = NMol;
+}
 
-    for (int ii = 0; ii < N_molecules; ++ii) {
-        molecules[ii].position[0] += step;
-        molecules[ii].position[1] += step;
+void Cream::initializeMolecules(std::vector<Molecule> &molecules){
+    int i;
+    for(i=0;i<N_molecules;i++){
 
-        // Pared superior y derecha
-        if (molecules[ii].position[0] > 100)
-            molecules[ii].position[0] = 100;
-
-        if (molecules[ii].position[1] > 100)
-            molecules[ii].position[1] = 100;
-
-        // Pared inferior e izquierda
-        if (molecules[ii].position[0] < -100)
-            molecules[ii].position[0] = -100;
-
-        if (molecules[ii].position[1] < -100)
-            molecules[ii].position[1] = -100;
-
-        time_step++;
     }
+    std::cout<<"Salió "<<i<<std::endl;
+
 }
 
-// Función que calcula el tamaño promedio según la definición del libro
-double Cream::size() {
-        double r = 0;
-        for (int ii = 0; ii < N_molecules; ++ii) {
-            r += std::pow(molecules[ii].position[0], 2) + std::pow(molecules[ii].position[1], 2);
-        }
-        return std::sqrt(r / N_molecules);
-}
 
-// Función que retorna las posiciones de todas las moleculas
-void Cream::total_positions(){
-    std::string dataName = "position" + std::to_string(time_step) + ".txt";
-    std::ofstream fout;
-    fout.open(dataName);
+// void Cream::evolve(Molecule * moleculesVector);
+// {
+//     int step = random_step();
 
-    for (int ii = 0; ii < N_molecules; ++ii){ 
-    std::vector<int> pos_time = molecules[ii].position;
-    fout<<pos_time[0] << "\t" << pos_time[1]<<std::endl;
-    }
+//     for (int ii = 0; ii < N_molecules; ++ii) {
+//         molecules[ii].position[0] += step;
+//         molecules[ii].position[1] += step;
 
-    fout.close();
-}
+//         // Pared superior y derecha
+//         if (molecules[ii].position[0] > 100)
+//             molecules[ii].position[0] = 100;
+
+//         if (molecules[ii].position[1] > 100)
+//             molecules[ii].position[1] = 100;
+
+//         // Pared inferior e izquierda
+//         if (molecules[ii].position[0] < -100)
+//             molecules[ii].position[0] = -100;
+
+//         if (molecules[ii].position[1] < -100)
+//             molecules[ii].position[1] = -100;
+
+//         time_step++;
+//     }
+// }
+
+// // Función que calcula el tamaño promedio según la definición del libro
+// double Cream::size() {
+//         double r = 0;
+//         for (int ii = 0; ii < N_molecules; ++ii) {
+//             r += std::pow(molecules[ii].position[0], 2) + std::pow(molecules[ii].position[1], 2);
+//         }
+//         return std::sqrt(r / N_molecules);
+// }
+
+// // Función que retorna las posiciones de todas las moleculas
+// void Cream::total_positions(){
+//     std::string dataName = "position" + std::to_string(time_step) + ".txt";
+//     std::ofstream fout;
+//     fout.open(dataName);
+
+//     for (int ii = 0; ii < N_molecules; ++ii){
+//     std::vector<int> pos_time = molecules[ii].position;
+//     fout<<pos_time[0] << "\t" << pos_time[1]<<std::endl;
+//     }
+
+//     fout.close();
+// }
+
+
+
 
 // double Cream::entropy() {
 //    delta = 200/nsample;

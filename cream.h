@@ -1,35 +1,44 @@
 #pragma once
-#include <iostream>
 #include <vector>
 #include <random>
 #include <cmath>
 #include <string>
 #include <fstream>
 
+
+class Molecule;
+class Cream;
+
 // Declaración de la clase Molecule
 class Molecule {
-public:
     std::vector<int> position;
 
-    Molecule(std::vector<int> pos);
+public:
+    void moleculeC(std::vector<int> pos); //Constructor clase Molecule.
+
+friend class Cream; //Se usa para que la clase Cream pueda acceder a los atributos de cualquier molécula.
 };
 
 // Declaración de la clase Cream
 class Cream {
-public:
-    std::vector<Molecule> molecules;
-
     int N_molecules;
+    double randomSeed;
 
-    int time_step = 0;
+public:
 
-    void evolve();
+    Cream(double seed, int NMol); //Constructor clase Cream.
 
-    void total_positions();
+    void initializeMolecules(std::vector<Molecule> &molecules);
 
-    // double entropy(nsample);
+    // void evolve(Molecule * moleculesVector);
+    // void moveMolecule(Molecule & molecule);
 
-    double size();
+    // int time_step = 0;
 
-    Cream(std::vector<Molecule> mol, int N_molecules);
+    // void total_positions();
+
+    // // double entropy(nsample);
+    // double size();
+
+
 };

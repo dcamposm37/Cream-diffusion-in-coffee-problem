@@ -1,12 +1,22 @@
 #include "cream.h"
 #include "random69.h"
+#include <iostream>
+
 
 int main(int argc, char const *argv[])
 {
-    int N_mol = 400;
-    int n_iterations = 10000;
+    int N_mol = 400; //Number of molecules
+    int n_iterations = 10; //Niterations
+    int latticesize = 100; //latticesize
+    int seed = 0; //randomgeneratorsedd
 
-    std::vector<Molecule> ini_mol(N_mol, Molecule(pos_ini(10))); // vector que contiene las clases Molecule
+
+    std::vector<Molecule> molecules(N_mol);
+
+    Cream cup(seed, N_mol);
+    cup.initializeMolecules(molecules);
+
+
 
     // for (int ii = 0; ii < N_mol; ++ii){ 
     //     std::cout << ini_mol[ii].position[0] << std::endl;
@@ -15,7 +25,6 @@ int main(int argc, char const *argv[])
     // }
 
 
-    Cream cup(ini_mol, N_mol);
 
-    cup.total_positions();
+
 }
