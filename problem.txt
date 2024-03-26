@@ -1,0 +1,26 @@
+Textbook problem:
+
+1. Square black mass at t=0 (Cream)
+2. Each of the molecules execute a random walk on a two-dimensional square lattice (Allowed multiple occupancy)
+3. At each time step we choose A MOLECULE at random and let it take one step in its random walk.
+4. There are walls at x= +- 100 and y = +- 100. The molecules are constrained to stay in the region shown.
+5. We calculate the entropy explicity: S = ...
+6. We divide the system into a squared grid. Each partition is a distinct state. P_i is the probability of finding a molecule in cell i.
+
+Exercises:
+1. Calculate the entropy and reproduce figure.
+2. Calculate S as a function of time for the problem for containers with DIFFERENT SIZES.
+
+3. Show that the size of the drop of cream increases as t^(1/2), so long as the drop is smaller than the size of the container.
+The time at which the size of the drop stops increasing should be the same as the time at which the system reaches equilibrium determined by the entropy.
+
+4. let one of the walls of the container posses a small hole so that if a cream molecule enters the hole, it leaves the container. Number of molecules in the container as function of time. N(t) is proportional to te partial pressue of the cream molecules, varies as exp(-t/tau). (50x50 container lattice and a hole 10 units in lenght along one of the edges.)
+
+
+
+OQUENDO:
+
+1. Comprimir en ZIP.
+2. Modularizado.
+3. Leer parámetros desde archivo de texto. (input.txt)
+4. Makefile
