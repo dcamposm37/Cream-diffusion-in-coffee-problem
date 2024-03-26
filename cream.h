@@ -3,6 +3,8 @@
 #include <vector>
 #include <random>
 #include <cmath>
+#include <string>
+#include <fstream>
 
 // Declaración de la clase Molecule
 class Molecule {
@@ -17,13 +19,17 @@ class Cream {
 public:
     std::vector<Molecule> molecules;
 
-    int time_step;
+    int N_molecules;
+
+    int time_step = 0;
 
     void evolve();
+
+    void total_positions();
 
     // double entropy(nsample);
 
     double size();
 
-    Cream(std::vector<Molecule> mol);
+    Cream(std::vector<Molecule> mol, int N_molecules);
 };

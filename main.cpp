@@ -15,13 +15,7 @@ int main(int argc, char const *argv[])
     // }
 
 
-    Cream cup(ini_mol);
-    // std::cout << cup.molecules[0].position()[0] << std::endl;
+    Cream cup(ini_mol, N_mol);
 
-    for (int ii = 0; ii < N_mol; ++ii){ 
-        int pos_time = cup.molecules[ii].position[0];
-        std::cout << pos_time << std::endl;
-    }
-
-    return 0;
+    cup.total_positions();
 }
