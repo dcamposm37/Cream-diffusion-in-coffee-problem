@@ -6,11 +6,13 @@ void Molecule::setPosition(std::vector<int> pos){
 }
 
 
-Cream::Cream(int nMol, int nIterations, int latticesize,std::mt19937 & genMt){
+Cream::Cream(int randomSeed,int nMol, int nIterations, int latticesize){
     N_molecules = nMol;
     N_iterations = nIterations;
     latticeSize = latticesize;
-    gen = genMt;
+    std::mt19937 gene(randomSeed);
+    gen = gene;
+
 }
 
 void Cream::initializeMolecules(std::vector<Molecule> & molecules, int initialLatticeSize){

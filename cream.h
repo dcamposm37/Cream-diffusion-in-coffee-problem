@@ -28,7 +28,7 @@ class Cream {
 
 public:
 
-    Cream(int nMol, int nIterations, int latticesize, std::mt19937 & genMt); //Constructor clase Cream.
+    Cream(int randomSeed, int nMol, int nIterations, int latticesize); //Constructor clase Cream.
 
     void initializeMolecules(std::vector<Molecule> &molecules, int initialLatticeSize);
 
