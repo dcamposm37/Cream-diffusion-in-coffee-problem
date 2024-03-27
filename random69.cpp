@@ -1,24 +1,21 @@
 #include "random69.h"
 
 // Se utiliza un generador de números aleatorios para generar un índice aleatorio dentro del rango válido para el
-//   arreglo proporcionado y devuelve el elemento correspondiente a ese índice. 
-int random_step() {
+//   arreglo proporcionado y devuelve el elemento correspondiente a ese índice.
+
+int random_step(std::mt19937 gen) {
     std::vector<int> step = {-1,1};
     // Generador de números aleatorios
-    std::random_device rd;
-    std::mt19937 gen(rd());
     std::uniform_int_distribution<> distrib(0, step.size() - 1);
-
     int randomIndex = distrib(gen); // Generar un índice aleatorio
     return step[randomIndex]; // Devolver el elemento correspondiente al índice aleatorio
 }
 
 
 // Genera un vector de 2 entradas entre -range y range para las posiciones iniciales de las moleculas
-std::vector<int> pos_ini(int range) {
+std::vector<int> pos_ini(int range, std::mt19937 &gen) {
     // Generador de números aleatorios
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    //
     std::uniform_int_distribution<> distrib(-range, range);
     
     // Generar dos enteros aleatorios

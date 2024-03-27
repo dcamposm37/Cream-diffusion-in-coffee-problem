@@ -14,21 +14,23 @@ class Molecule {
     std::vector<int> position;
 
 public:
-    void moleculeC(std::vector<int> pos); //Constructor clase Molecule.
-
-friend class Cream; //Se usa para que la clase Cream pueda acceder a los atributos de cualquier molécula.
+    void setPosition(std::vector<int> pos);
+    friend class Cream; //Se usa para que la clase Cream pueda acceder a los atributos de cualquier molécula.
 };
 
 // Declaración de la clase Cream
 class Cream {
     int N_molecules;
-    double randomSeed;
+    int seed;
+    int N_iterations;
+    int latticeSize;
+    std::mt19937 gen;
 
 public:
 
-    Cream(double seed, int NMol); //Constructor clase Cream.
+    Cream(int nMol, int nIterations, int latticesize, std::mt19937 & genMt); //Constructor clase Cream.
 
-    void initializeMolecules(std::vector<Molecule> &molecules);
+    void initializeMolecules(std::vector<Molecule> &molecules, int initialLatticeSize);
 
     // void evolve(Molecule * moleculesVector);
     // void moveMolecule(Molecule & molecule);

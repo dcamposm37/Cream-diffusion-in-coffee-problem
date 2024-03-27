@@ -1,22 +1,25 @@
 #include "cream.h"
 #include "random69.h"
 
-void Molecule::moleculeC(std::vector<int> pos){
-    position = pos; //Se inicializa cada molécula con su posición.
+void Molecule::setPosition(std::vector<int> pos){
+    position = pos;
 }
 
 
-Cream::Cream(double seed, int NMol){
-    randomSeed = seed;
-    N_molecules = NMol;
+Cream::Cream(int nMol, int nIterations, int latticesize,std::mt19937 & genMt){
+    N_molecules = nMol;
+    N_iterations = nIterations;
+    latticeSize = latticesize;
+    gen = genMt;
 }
 
-void Cream::initializeMolecules(std::vector<Molecule> &molecules){
+void Cream::initializeMolecules(std::vector<Molecule> & molecules, int initialLatticeSize){
     int i;
     for(i=0;i<N_molecules;i++){
-
+    std::vector<int> pos = pos_ini(initialLatticeSize,gen);
+    molecules[i].setPosition(pos);
     }
-    std::cout<<"Salió "<<i<<std::endl;
+
 
 }
 

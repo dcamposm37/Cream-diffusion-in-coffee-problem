@@ -36,12 +36,16 @@ inputFile.open("input.txt", std::ios::in); //Abre el archivo en modo lectura.
     int n_iterations = input[1]; //Niterations (20)
     int latticesize = input[2]; //latticesize (10)
     int seed = input[3]; //randomgeneratorsedd (0)
+    int initialLatticeSize = 20;
 
+    std::mt19937 gen(seed); //Se inicializa el generador con la semilla dada.
 
     std::vector<Molecule> molecules(N_mol);
+    Cream cup(N_mol,n_iterations,latticesize, gen);
 
-    Cream cup(seed, N_mol);
-    cup.initializeMolecules(molecules);
+
+
+    cup.initializeMolecules(molecules, initialLatticeSize);
 
 
 
