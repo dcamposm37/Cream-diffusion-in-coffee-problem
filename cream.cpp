@@ -6,11 +6,13 @@ void Molecule::setPosition(std::vector<int> pos){
     position = pos;
 }
 
-void Molecule::moveMolecule(int movement, int max){
+void Molecule::moveMolecule(int movement, int maxLattice){
     /* La variable movement será un número de 0 a 3, se establece la convención de que los números pares corresponden a incrementeos y
        los números impares a decrementos. Además si el número es 0 ó 1, corresponde desplazamientos en x; si el número es 2 ó 3 corresponde
        a desplazaminetos en y.
        Se establecen condicionales de modo que cuando una molécula llegue al límite se congele en esa coordenada. */
+
+    int max = maxLattice/2; //Si maxLattice no es divisible entre 2, se trunca.
     if((movement == 0) && (position[0] < max)) position[0] +=1;
     if((movement == 1) && (position[0] > -max)) position[0]-=1;
     if((movement == 2) && (position[1] < max)) position[1] +=1;

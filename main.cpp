@@ -27,11 +27,12 @@ int main(int argc, char const *argv[])
         inputFile.close();   //close the file object.
     }
 
-    int N_mol = input[0]; //Number of molecules (400)
-    int latticesize = input[1]; //latticesize (20)
-    int n_iterations = input[2]; //Niterations (10)
-    int seed = input[3]; //randomgeneratorsedd (0)
-    int maxLatticesize = 100;
+
+    const int N_mol = input[0]; //Number of molecules (400)
+    const int latticesize = input[1]; //latticesize (20) Preferibles números divisibles entre 2.
+    const int n_iterations = input[2]; //Niterations (10)
+    const int seed = input[3]; //randomgeneratorsedd (0)
+    const int maxLatticesize = 200; //Preferibles números divisibles entre 2.
 
     std::cout<<n_iterations<<"\n";
     //    std::mt19937 gen(seed); //Se inicializa el generador con la semilla dada.

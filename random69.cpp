@@ -2,9 +2,9 @@
 
 
 // Genera un vector de 2 entradas entre -range y range para las posiciones iniciales de las moleculas
-std::vector<int> pos_ini(int range, std::mt19937 &gen) {
+std::vector<int> pos_ini(int latticesize, std::mt19937 &gen) {
     // Generador de números aleatorios
-
+    int range = latticesize/2; //Si el número no es divisible entre 2, se trunca como entero.
     std::uniform_int_distribution<> distrib(-range, range);
     
     // Generar dos enteros aleatorios
