@@ -96,7 +96,7 @@ std::ofstream fout;
      std::vector<int> infoMove = infoMoveMolecule();
      int numberMolecule = infoMove[0];
      int movement = infoMove[1];
-     updateGrid(molecules[numberMolecule], 1);
+    updateGrid(molecules[numberMolecule], 1);
      molecules[numberMolecule].moveMolecule(movement,maxLatticeSize); //Se mueve la molécula.
      updateGrid(molecules[numberMolecule], 0);
  }
