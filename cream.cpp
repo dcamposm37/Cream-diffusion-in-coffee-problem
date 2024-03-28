@@ -78,35 +78,116 @@ void Cream::evolve(std::vector<Molecule> & molecules)
 
 //Imprime iniciales.
 std::ofstream fout;
-fout.open("datos0.txt");
 
-for (int i=0;i<N_molecules;i++) {
-fout<<i<<"\t"<<molecules[i].position[0]<<"\t"<<molecules[i].position[1]<<"\n";
+ // fout.open("datos0.txt");
+
+// for (int i=0;i<N_molecules;i++) {
+// fout<<i<<"\t"<<molecules[i].position[0]<<"\t"<<molecules[i].position[1]<<"\n";
+//  }
+//  fout.close();
+
+
+
+ fout.open("EntropyVsTime.txt");
+
+ for (int t=0;t<N_iterations;t++) {
+
+     double entropy = entropyPerTimeStep();
+     fout<<t<<"\t"<<entropy<<"\n";
+     std::vector<int> infoMove = infoMoveMolecule();
+     int numberMolecule = infoMove[0];
+     int movement = infoMove[1];
+     updateGrid(molecules[numberMolecule], 1);
+     molecules[numberMolecule].moveMolecule(movement,maxLatticeSize); //Se mueve la molécula.
+     updateGrid(molecules[numberMolecule], 0);
  }
- fout.close();
 
-fout.open("datos1.txt");
-
-for (int i=0;i<gridBins*gridBins;i++) {
-fout<<i<<"\t"<<grid[i]<<"\n";
- }
- fout.close();
-
-//Crear arreglo inicial como atributo.
-//Paso por referencia en initialize (MoleculesGrid) y calculo dónde están las posiciones iniciales.
-//Luego, en evolve calculo a dónde se movió la que se movió y actualizo.
-
-
-    for (int t=0;t<N_iterations;t++) {
-        std::vector<int> infoMove = infoMoveMolecule();
-        int numberMolecule = infoMove[0];
-        int movement = infoMove[1];
-        molecules[numberMolecule].moveMolecule(movement,maxLatticeSize); //Se mueve la molécula.
-    }
-
+fout.close();
 
 
 }
+
+double Cream::entropyPerTimeStep(void){
+    double N_moleculesD = static_cast<double>(N_molecules);
+    double S=0;
+    for(int i=0;i<gridBins*gridBins;i++) {
+        double probabilityi = grid[i]/N_moleculesD;
+        if(probabilityi == 0){
+        continue;
+        }
+        S+= std::log(probabilityi)*probabilityi;
+    }
+
+return -S;
+}
+
+
+void Cream::updateGrid(Molecule mol,int flag){
+    std::vector<int> pos = mol.position;
+    bool xLimit = false;
+    bool yLimit = false;
+    int x = pos[0];
+    int y = pos[1];
+    int Mx;
+    int My;
+
+    int limit = maxLatticeSize/2;
+
+    if(x==limit) {
+        Mx = gridBins-1;
+        xLimit = true;
+    }
+    if(y==limit) {
+        My = gridBins-1;
+        yLimit = true;    }
+
+    if(xLimit == true && yLimit == true && flag==0){
+        grid[My*gridBins + Mx] += 1;
+        return;
+    }
+    else if (xLimit == true && yLimit == true && flag==1) {
+        grid[My*gridBins + Mx] -= 1;
+        return;
+    }
+
+    int ancho = maxLatticeSize/gridBins;
+    int valDistance = maxLatticeSize/2;
+
+    if (xLimit ==true && flag ==0) {
+        My = (pos[1] + valDistance)/ancho; //Índice de la fila.
+        grid[My*gridBins + Mx] += 1;
+        return;
+    }
+    else if (xLimit ==true && flag == 1 ) {
+        My = (pos[1] + valDistance)/ancho; //Índice de la fila.
+        grid[My*gridBins + Mx] -= 1;
+        return;
+    }
+
+    if (yLimit ==true && flag ==0) {
+        Mx = (pos[0] + valDistance)/ancho; //Índice de la columna.
+        grid[My*gridBins + Mx] += 1;
+        return;
+    }
+    else if (yLimit ==true && flag == 1 ) {
+        Mx = (pos[0] + valDistance)/ancho; //Índice de la columna.
+        grid[My*gridBins + Mx] -= 1;
+        return;
+    }
+
+    Mx = (pos[0] + valDistance)/ancho; //Índice de la columna.
+    My = (pos[1] + valDistance)/ancho; //Índice de la fila.
+
+    if (flag==0) {
+        grid[My*gridBins + Mx] += 1;
+    }
+    else {
+        grid[My*gridBins + Mx] -= 1;
+    }
+
+}
+
+
 
 // // Función que calcula el tamaño promedio según la definición del libro
 // double Cream::size() {

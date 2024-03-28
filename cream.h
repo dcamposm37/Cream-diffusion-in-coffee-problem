@@ -34,12 +34,15 @@ public:
     Cream(int randomSeed, int nMol, int nIterations, int latticesize, int maxLatticesize, int gridbins); //Constructor clase Cream.
 
     std::vector<int> getGrid(void);
+
     void initializeMoleculesGrid(std::vector<Molecule> & molecules);
 
     void fillInitialGrid(std::vector<int> pos);
     void evolve(std::vector<Molecule> & molecules);
-
     std::vector<int> infoMoveMolecule(void);
+
+    double entropyPerTimeStep(void);
+    void updateGrid(Molecule mol,int flag);
 
     // void moveMolecule(Molecule & molecule);
 
