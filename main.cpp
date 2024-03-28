@@ -32,15 +32,17 @@ int main(int argc, char const *argv[])
     const int latticesize = input[1]; //latticesize (20) Preferibles números divisibles entre 2.
     const int n_iterations = input[2]; //Niterations (10)
     const int seed = input[3]; //randomgeneratorsedd (0)
+
     const int maxLatticesize = 200; //Preferibles números divisibles entre 2.
+    const int gridbins = 8; //Cantidad de cajas que tendrá por lado. La grilla será cuadrada.
 
     std::cout<<n_iterations<<"\n";
     //    std::mt19937 gen(seed); //Se inicializa el generador con la semilla dada.
     std::vector<Molecule> molecules(N_mol);
 
-    Cream cup(seed,N_mol,n_iterations,latticesize, maxLatticesize);
+    Cream cup(seed,N_mol,n_iterations,latticesize, maxLatticesize, gridbins);
 
-    cup.initializeMolecules(molecules);
+    cup.initializeMoleculesGrid(molecules);
     cup.evolve(molecules);
 
 

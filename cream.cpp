@@ -20,21 +20,42 @@ void Molecule::moveMolecule(int movement, int maxLattice){
 }
 
 
-Cream::Cream(int randomSeed,int nMol, int nIterations, int latticesize, int maxLatticesize){
+Cream::Cream(int randomSeed, int nMol, int nIterations, int latticesize, int maxLatticesize, int gridbins){
     N_molecules = nMol;
     N_iterations = nIterations;
     latticeSize = latticesize;
     maxLatticeSize = maxLatticesize;
-    std::mt19937 gene(randomSeed);
-    gen = gene;
+    //std::mt19937 gene(randomSeed);
+    gen = std::mt19937(randomSeed);
+    gridBins = gridbins;
+    grid.resize(gridbins*gridbins,0);
 
 }
 
-void Cream::initializeMolecules(std::vector<Molecule> & molecules){
+void Cream::initializeMoleculesGrid(std::vector<Molecule> & molecules){
     int i;
+    int Mx;
+    int My;
+    int ancho = maxLatticeSize/gridBins;
+    int valDistance = maxLatticeSize/2;
+
     for(i=0;i<N_molecules;i++){
-        std::vector<int> pos = pos_ini(latticeSize,gen);
+        std::vector<int> pos = pos_ini(latticeSize,gen); //Devuelve la posición inicial en formato {x,y}
         molecules[i].setPosition(pos);
+/* Se llena la grilla de la siguiente forma: Como sabemos el tamaño de la grilla (maxLatticeSize) y
+el número de cajas que tendrá por cada lado (gridBins), entonces el ancho de cada cuadrado será maxLatticeSize/gridBins.
+Ahora, si tomamos el extremo izquierdo, con maxLatticeSize=200 el extremo izquierdo sería la coordenada (-100,-100), como el lugar desde
+donde se empiezan a contar los bins (Que inician en 0) y la distancia, tenemos que se cumple que M veces el ancho será igual a la distancia de un valor "x"
+desde (-100,-100). Así, se cumplirá en x que: M*Ancho = x+100, donde la parte entera de M nos dirá a qué bin en el eje x pertenece el valor x. De la misma
+forma M*Ancho = y + 100 nos dirá a qué bin del eje y pertenece el valor y. Se implementa a continuación. Para una explicación gráfica, refiérase al informe.
+ */
+        Mx = (pos[0] + valDistance)/ancho; //Índice de la columna.
+        My = (pos[1] + valDistance)/ancho; //Índice de la fila.
+
+
+        grid[My*gridBins + Mx] += 1;
+
+        std::cout<<pos[0]<<" "<<pos[1]<<" "<<My<<" "<<Mx<<" "<<My*gridBins+Mx<<"\n";
     }
 
 }
@@ -59,6 +80,17 @@ fout<<i<<"\t"<<molecules[i].position[0]<<"\t"<<molecules[i].position[1]<<"\n";
  }
  fout.close();
 
+fout.open("datos1.txt");
+
+for (int i=0;i<gridBins*gridBins;i++) {
+fout<<i<<"\t"<<grid[i]<<"\n";
+ }
+ fout.close();
+
+//Crear arreglo inicial como atributo.
+//Paso por referencia en initialize (MoleculesGrid) y calculo dónde están las posiciones iniciales.
+//Luego, en evolve calculo a dónde se movió la que se movió y actualizo.
+
 
     for (int t=0;t<N_iterations;t++) {
         std::vector<int> infoMove = infoMoveMolecule();
@@ -66,11 +98,8 @@ fout<<i<<"\t"<<molecules[i].position[0]<<"\t"<<molecules[i].position[1]<<"\n";
         int movement = infoMove[1];
         molecules[numberMolecule].moveMolecule(movement,maxLatticeSize); //Se mueve la molécula.
     }
-fout.open("datos1.txt");
- for (int i=0;i<N_molecules;i++) {
-     fout<<i<<"\t"<<molecules[i].position[0]<<"\t"<<molecules[i].position[1]<<"\n";
- }
- fout.close();
+
+
 
 }
 

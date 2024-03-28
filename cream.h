@@ -26,13 +26,14 @@ class Cream {
     int N_iterations;
     int latticeSize;
     int maxLatticeSize;
+    int gridBins;
     std::mt19937 gen;
-
+    std::vector<int> grid;
 public:
 
-    Cream(int randomSeed, int nMol, int nIterations, int latticesize, int maxLatticesize); //Constructor clase Cream.
+    Cream(int randomSeed, int nMol, int nIterations, int latticesize, int maxLatticesize, int gridbins); //Constructor clase Cream.
 
-    void initializeMolecules(std::vector<Molecule> & molecules);
+    void initializeMoleculesGrid(std::vector<Molecule> & molecules);
 
     void evolve(std::vector<Molecule> & molecules);
 
