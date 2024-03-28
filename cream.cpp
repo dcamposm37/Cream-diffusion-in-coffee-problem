@@ -91,7 +91,6 @@ std::ofstream fout;
  fout.open("EntropyVsTime.txt");
 
  for (int t=0;t<N_iterations;t++) {
-
      double entropy = entropyPerTimeStep();
      fout<<t<<"\t"<<entropy<<"\n";
      std::vector<int> infoMove = infoMoveMolecule();
@@ -122,6 +121,8 @@ return -S;
 }
 
 
+
+
 void Cream::updateGrid(Molecule mol,int flag){
     std::vector<int> pos = mol.position;
     bool xLimit = false;
@@ -132,60 +133,42 @@ void Cream::updateGrid(Molecule mol,int flag){
     int My;
 
     int limit = maxLatticeSize/2;
-
-    if(x==limit) {
-        Mx = gridBins-1;
-        xLimit = true;
-    }
-    if(y==limit) {
-        My = gridBins-1;
-        yLimit = true;    }
-
-    if(xLimit == true && yLimit == true && flag==0){
-        grid[My*gridBins + Mx] += 1;
-        return;
-    }
-    else if (xLimit == true && yLimit == true && flag==1) {
-        grid[My*gridBins + Mx] -= 1;
-        return;
-    }
-
     int ancho = maxLatticeSize/gridBins;
     int valDistance = maxLatticeSize/2;
 
-    if (xLimit ==true && flag ==0) {
-        My = (pos[1] + valDistance)/ancho; //Índice de la fila.
-        grid[My*gridBins + Mx] += 1;
-        return;
-    }
-    else if (xLimit ==true && flag == 1 ) {
-        My = (pos[1] + valDistance)/ancho; //Índice de la fila.
-        grid[My*gridBins + Mx] -= 1;
-        return;
-    }
 
-    if (yLimit ==true && flag ==0) {
+    if((x != limit) && (y != limit)){
         Mx = (pos[0] + valDistance)/ancho; //Índice de la columna.
-        grid[My*gridBins + Mx] += 1;
-        return;
+        My = (pos[1] + valDistance)/ancho; //Índice de la fila.
     }
-    else if (yLimit ==true && flag == 1 ) {
-        Mx = (pos[0] + valDistance)/ancho; //Índice de la columna.
-        grid[My*gridBins + Mx] -= 1;
-        return;
+    else{ //Uno de los dos es límite.
+
+        if(x==limit) {
+            Mx = gridBins-1;
+            xLimit = true;
+        }
+
+        if(y==limit) {
+            My = gridBins-1;
+            yLimit = true;}
+
+        if(xLimit == true && yLimit == false){
+            My = (pos[1] + valDistance)/ancho; //Índice de la fila.
+        }
+        else if (xLimit == false && yLimit == true) {
+            Mx = (pos[0] + valDistance)/ancho; //Índice de la columna.
+        }
     }
 
-    Mx = (pos[0] + valDistance)/ancho; //Índice de la columna.
-    My = (pos[1] + valDistance)/ancho; //Índice de la fila.
-
-    if (flag==0) {
-        grid[My*gridBins + Mx] += 1;
-    }
-    else {
-        grid[My*gridBins + Mx] -= 1;
-    }
-
+      if (flag==0) {
+            grid[My*gridBins + Mx] += 1;
+        }
+        else {
+            grid[My*gridBins + Mx] -= 1;
+        }
 }
+
+
 
 
 
