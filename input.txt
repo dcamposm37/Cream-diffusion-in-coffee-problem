@@ -1,4 +1,4 @@
-10    #nmolecules
+5    #nmolecules
 20      #latticesize
 100     #niterations
-0       #randomgeneratorseed
+1       #randomgeneratorseed
