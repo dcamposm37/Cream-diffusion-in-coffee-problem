@@ -29,5 +29,5 @@ axes.legend(loc='upper left')   #
 axes.grid(True, linestyle='--')
 #axes.set_title("y vs x", fontsize=14)
 plt.tight_layout()
-plt.show()
-#fig.savefig('plot.pdf')
+#plt.show()
+fig.savefig('plot.pdf')
