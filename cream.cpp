@@ -89,10 +89,13 @@ std::ofstream fout;
 
 
  fout.open("EntropyVsTime.txt");
+ std::ofstream fout_size("SizeVsTime.txt");
 
- for (int t=0;t<N_iterations;t++) {
+ for (int t=0;t<N_iterations;t++) { 
      double entropy = entropyPerTimeStep();
      fout<<t<<"\t"<<entropy<<"\n";
+     double avg_size = size(molecules);
+     fout_size << t << "\t" << avg_size << "\n";
      std::vector<int> infoMove = infoMoveMolecule();
      int numberMolecule = infoMove[0];
      int movement = infoMove[1];
@@ -102,6 +105,7 @@ std::ofstream fout;
  }
 
 fout.close();
+fout_size.close();
 
 
 }
