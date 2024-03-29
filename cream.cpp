@@ -93,13 +93,17 @@ std::ofstream fout;
 
  for (int t=0;t<N_iterations;t++) { 
      double entropy = entropyPerTimeStep();
-     fout<<t<<"\t"<<entropy<<"\n";
      double avg_size = size(molecules);
-     fout_size << t << "\t" << avg_size << "\n";
+
+     if (t%1000 == 0){
+        fout<<t<<"\t"<<entropy<<"\n";
+        fout_size << t << "\t" << avg_size << "\n";
+     }
+
      std::vector<int> infoMove = infoMoveMolecule();
      int numberMolecule = infoMove[0];
      int movement = infoMove[1];
-    updateGrid(molecules[numberMolecule], 1);
+     updateGrid(molecules[numberMolecule], 1);
      molecules[numberMolecule].moveMolecule(movement,maxLatticeSize); //Se mueve la molécula.
      updateGrid(molecules[numberMolecule], 0);
  }
