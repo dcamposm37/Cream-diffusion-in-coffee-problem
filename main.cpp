@@ -33,7 +33,7 @@ int main(int argc, char const *argv[])
     const int n_iterations = input[2]; //Niterations (10)
     const int seed = input[3]; //randomgeneratorsedd (0)
 
-    const int maxLatticesize = 600; //Preferibles números divisibles entre 2.
+    const int maxLatticesize = 200; //Preferibles números divisibles entre 2.
     const int gridbins = 8; //Cantidad de cajas que tendrá por lado. La grilla será cuadrada.
 
 
