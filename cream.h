@@ -51,7 +51,7 @@ public:
     // void total_positions();
 
     // // double entropy(nsample);
-    // double size();
+    double size(std::vector<Molecule> & molecules);
 
 
 };

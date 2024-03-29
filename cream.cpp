@@ -173,13 +173,13 @@ void Cream::updateGrid(Molecule mol,int flag){
 
 
 // // Función que calcula el tamaño promedio según la definición del libro
-// double Cream::size() {
-//         double r = 0;
-//         for (int ii = 0; ii < N_molecules; ++ii) {
-//             r += std::pow(molecules[ii].position[0], 2) + std::pow(molecules[ii].position[1], 2);
-//         }
-//         return std::sqrt(r / N_molecules);
-// }
+double Cream::size(std::vector<Molecule> & molecules) {
+        double r = 0;
+        for (int ii = 0; ii < N_molecules; ++ii) {
+            r += std::pow(molecules[ii].position[0], 2) + std::pow(molecules[ii].position[1], 2);
+        }
+        return std::sqrt(r / N_molecules);
+}
 
 // // Función que retorna las posiciones de todas las moleculas
 // void Cream::total_positions(){
