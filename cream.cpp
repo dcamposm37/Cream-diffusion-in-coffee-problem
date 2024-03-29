@@ -89,7 +89,7 @@ std::ofstream fout;
 
 
  fout.open("EntropyVsTime.txt");
- std::ofstream fout_size("SizeVsTime.txt");
+ std::ofstream fout_size("SizeVsTime.txt"); 
 
  for (int t=0;t<N_iterations;t++) { 
      double entropy = entropyPerTimeStep();

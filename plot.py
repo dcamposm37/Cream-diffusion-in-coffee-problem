@@ -1,8 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
-from qbstyles import mpl_style
-mpl_style(dark=False)
+from sklearn.metrics import r2_score
+# from qbstyles import mpl_style
+# mpl_style(dark=False)
 
 def sqrt_model(x, a, b):
     return a*np.sqrt(x) + b
@@ -12,9 +13,11 @@ t_entropy, entropy = np.genfromtxt('EntropyVsTime.txt', unpack=True, usecols=(0,
 t_size, size= np.genfromtxt('SizeVsTime.txt', unpack=True, usecols=(0, 1))
 
 # Ajuste 
-a, b, covarian_matrix = curve_fit(sqrt_model, t_size, size)
+parameters, covarian_matrix = curve_fit(sqrt_model, t_size, size)
+a, b = parameters
 
 t_fit = np.linspace(t_size[0], t_size[-1], 100) 
+r2 = r2_score(size, sqrt_model(t_size, a, b))
 
 #plt.style.use('seaborn-v0_8')
 
@@ -23,11 +26,11 @@ fig2, axes2 = plt.subplots(figsize=(6, 6))
 
 axes1.scatter(t_entropy, entropy, marker= '.', color='black', label=r'$Entropy(t)$')
 axes2.scatter(t_size, size, marker= '.', color='black', label=r'$Size(t)$')
-axes2.plot(t_fit, sqrt_model(t_fit, a, b), marker= '.', color='black', label=r'$squared fit$')
+axes2.plot(t_fit, sqrt_model(t_fit, a, b), color='red', label=f'${b:.1f} t^{1/2} + {a:.5f}  R^2 ={r2:.3f}$')
 #axes.plot(x1, y1, '.', color='black', label=r'$(x,y)_{I}$')
 #axes.plot(x2, y2, '.', color='black', label=r'$(x,y)_{F}$')
 
-#axes.set_xlim(-100, 100)
+# axes.set_xlim(-100, 100)
 #axes.set_ylim(-100, 100)
 
 
@@ -35,7 +38,7 @@ axes2.plot(t_fit, sqrt_model(t_fit, a, b), marker= '.', color='black', label=r'$
 axes1.set_xlabel('time', fontsize=12)
 axes1.set_ylabel('Entropy', fontsize=12)
 axes2.set_xlabel('time', fontsize=12)
-axes2.set_ylabel('Size', fontsize=12)
+axes2.set_ylabel('Size of the drop', fontsize=12)
 
 # axes.set_xlabel('x', fontsize=12)
 # axes.set_ylabel('y', fontsize=12)
