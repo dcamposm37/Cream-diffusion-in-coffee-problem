@@ -22,7 +22,7 @@ fig, axes = plt.subplots(figsize=(6,6))
 
 axes.scatter(t, molecules, marker='.', color='black', label='Molecules(t)')
 
-axes.plot(t, moleculesAdjusted, color='red',label=r'{} $e^{{-t/{}}}$  $R^2$ = {}'.format(round(tau,5),round(r2,4)))
+axes.plot(t, moleculesAdjusted, color='red',label= f'tau={tau}, r2={r2}')
 
 # Se ajustan demás detalles del gráfico.
 
