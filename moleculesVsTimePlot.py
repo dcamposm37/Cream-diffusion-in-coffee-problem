@@ -8,6 +8,7 @@ def proposed_model(x, tau):
 
 t, molecules= np.genfromtxt('moleculesVsTime.txt', unpack=True, usecols=(0, 1))
 
+
 # Ajuste
 parameters, covarian_matrix = curve_fit(proposed_model, t, molecules)
 tau = parameters
@@ -26,8 +27,8 @@ axes.plot(t, moleculesAdjusted, color='red',label= f'tau={tau}, r2={r2}')
 
 # Se ajustan demás detalles del gráfico.
 
-axes.set_xlabel('t', fontmolecules=12)
-axes.set_ylabel('Number of molecules', fontmolecules=12)
+axes.set_xlabel('t', fontsize=12)
+axes.set_ylabel('Number of molecules', fontsize=12)
 axes.set_tittle("Number of molecules in the container vs t")
 axes.legend(loc='upper left')
 axes.grid(True, linestyle='--')
