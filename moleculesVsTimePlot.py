@@ -17,7 +17,7 @@ moleculesAdjusted = proposed_model(t, tau)
 r2, _ = pearsonr(molecules, moleculesAdjusted)
 
 
-fig, axes = plt.subplots((6, 6))
+fig, axes = plt.subplots(figsize=(6,6))
 
 
 axes.scatter(t, molecules, marker='.', color='black', label='Molecules(t)')
