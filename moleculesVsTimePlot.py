@@ -29,7 +29,7 @@ axes.plot(t, moleculesAdjusted, color='red',label= f'tau={tau}, r2={r2}')
 
 axes.set_xlabel('t', fontsize=12)
 axes.set_ylabel('Number of molecules', fontsize=12)
-axes.set_tittle("Number of molecules in the container vs t")
+axes.set_title("Number of molecules in the container vs t")
 axes.legend(loc='upper left')
 axes.grid(True, linestyle='--')
 fig.savefig('moleculesVsTimePlot.pdf')
