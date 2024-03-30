@@ -12,10 +12,11 @@ class Cream;
 // Declaración de la clase Molecule
 class Molecule {
     std::vector<int> position; //Vector que guarda la posición como (x,y)
-
+    bool counted=false;
 public:
     void setPosition(std::vector<int> pos);
-    void moveMolecule(int movement, int max);
+    void moveMolecule(int movement, int maxLattice, int containerHoleSize,int &numberHoleMolecules);
+    void setCountedTrue(void);
     friend class Cream; //Se usa para que la clase Cream pueda acceder a los atributos de cualquier molécula.
 };
 
@@ -29,6 +30,10 @@ class Cream {
     int gridBins;
     std::mt19937 gen;
     std::vector<int> grid;
+    int containerHoleSize;
+    int numberHoleMolecules=0;
+
+
 public:
 
     Cream(int randomSeed, int nMol, int nIterations, int latticesize, int maxLatticesize, int gridbins); //Constructor clase Cream.

@@ -31,4 +31,4 @@ test: cream_test.x
 
 
 clean:
-	rm -f *.o *.x
+	rm -f *.o *.x EntropyVsTime*.txt SizeVsTime.txt moleculesVsTime.txt *.pdf
