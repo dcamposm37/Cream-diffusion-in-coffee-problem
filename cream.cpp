@@ -117,11 +117,12 @@ void Cream::evolve(std::vector<Molecule> & molecules)
     fout.open(entropyFileName);
     fout_size.open("SizeVsTime.txt");
     fout_moleculesTime.open("moleculesVsTime.txt");
-
+    int numberOfMoleculesLeft = N_molecules - numberHoleMolecules;
+    int numberOfMoleculesLeftAfterMove= numberOfMoleculesLeft+1;
     for (int t=0;t<N_iterations;t++) {
 
-        if(false){
-        // if (t%1000 == 0){
+
+        if (t%1000 == 0){
             double entropy = entropyPerTimeStep();
             double avg_size = size(molecules);
 
@@ -129,14 +130,17 @@ void Cream::evolve(std::vector<Molecule> & molecules)
             fout_size << t << "\t" << avg_size << "\n";
         }
 
-        int numberOfMoleculesLeft = N_molecules - numberHoleMolecules;
-        fout_moleculesTime<<t<<"\t"<<numberOfMoleculesLeft<<"\n";
+        if(numberOfMoleculesLeftAfterMove != numberOfMoleculesLeft)  fout_moleculesTime<<t<<"\t"<<numberOfMoleculesLeft<<"\n";
+
+
+        numberOfMoleculesLeft = N_molecules - numberHoleMolecules;
         std::vector<int> infoMove = infoMoveMolecule();
         int numberMolecule = infoMove[0];
         int movement = infoMove[1];
         updateGrid(molecules[numberMolecule], 1);
         molecules[numberMolecule].moveMolecule(movement,maxLatticeSize,containerHoleSize,numberHoleMolecules); //Se mueve la molécula.
         updateGrid(molecules[numberMolecule], 0);
+        numberOfMoleculesLeftAfterMove = N_molecules - numberHoleMolecules;
     }
 
                                 fout.close();

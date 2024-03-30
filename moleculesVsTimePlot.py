@@ -3,17 +3,18 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 from scipy.stats import pearsonr
 
-def proposed_model(x, tau):
-    return np.exp(-x/tau);
+def proposed_model(x, tau,A):
+    return A*np.exp(-x/tau)
 
 t, molecules= np.genfromtxt('moleculesVsTime.txt', unpack=True, usecols=(0, 1))
 
 
 # Ajuste
-parameters, covarian_matrix = curve_fit(proposed_model, t, molecules)
-tau = parameters
+parameters, covarian_matrix = curve_fit(proposed_model, t, molecules, p0=[400,100])
+tau = parameters[0]
+A = parameters[1]
 
-moleculesAdjusted = proposed_model(t, tau)
+moleculesAdjusted = proposed_model(t, tau, A)
 
 r2, _ = pearsonr(molecules, moleculesAdjusted)
 
@@ -32,4 +33,4 @@ axes.set_ylabel('Number of molecules', fontsize=12)
 axes.set_title("Number of molecules in the container vs t")
 axes.legend(loc='upper left')
 axes.grid(True, linestyle='--')
-fig.savefig('moleculesVsTimePlot.pdf')
+fig.savefig('moleculesVsTimePlot.png')
