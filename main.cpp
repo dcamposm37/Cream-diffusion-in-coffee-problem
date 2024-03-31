@@ -41,20 +41,19 @@ int main(int argc, char const *argv[])
 
     std::vector<Molecule> molecules(N_mol);
 
-    Cream cup(seed,N_mol,n_iterations,latticesize, maxLatticesize, gridbins);
-
+    Cream cup(seed,N_mol,n_iterations,latticesize, maxLatticesize, gridbins); //Punto 1 y 3
     cup.initializeMoleculesGrid(molecules);
     cup.evolve(molecules);
 
 
-     for (int size : maxLatticeSizes) {
+    //  for (int size : maxLatticeSizes) {
 
-             std::vector<Molecule> molecules2(N_mol);
+    //          std::vector<Molecule> molecules2(N_mol);
 
-             Cream cup2(seed,N_mol,n_iterations,latticesize, size, gridbins);
-             cup2.initializeMoleculesGrid(molecules2);
-             cup2.evolve2(molecules2);
-    }
+    //          Cream cup2(seed,N_mol,n_iterations,latticesize, size, gridbins);
+    //          cup2.initializeMoleculesGrid(molecules2);
+    //          cup2.evolve2(molecules2);
+    // }
 
 
 

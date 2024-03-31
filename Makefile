@@ -10,6 +10,10 @@ cream.o random69.o main.o: cream.cpp random69.cpp main.cpp input.txt
 main.x: cream.o random69.o main.o
 	g++	${CXXFLAGS} $^ -o main.x
 	./main.x
+# 	python3 EntropyPlot.py
+# 	python3 EntropyDifferentSizesPlot.py
+#	python3	sizeVsTimePlot.py
+#	python3 moleculesVsTimePlot.py
 
 cream_test.o: cream_test.cpp
 	g++ -c $^ -o $@
@@ -24,10 +28,7 @@ test: cream_test.x
 	./cream_test.x
 
 
-# plot.py: datos0.txt datos1.txt
 
-# plot: plot.py
-# 	python3 plot.py
 
 
 clean:

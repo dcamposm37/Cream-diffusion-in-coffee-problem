@@ -104,12 +104,14 @@ void Cream::evolve(std::vector<Molecule> & molecules)
     fout_size.open("SizeVsTime.txt");
     fout_moleculesTime.open("moleculesVsTime.txt");
 
+     int numberOfMoleculesLeftBefore = N_molecules - numberHoleMolecules;
+      int numberOfMoleculesLeftAfter = N_molecules - numberHoleMolecules + 1 ;
         for (int t=0;t<N_iterations;t++) {
 
 
 
         if (t%1000 == 0){
-        // if(true){
+//        if(false){
             double entropy = entropyPerTimeStep();
             double avg_size = size(molecules);
 
@@ -117,17 +119,16 @@ void Cream::evolve(std::vector<Molecule> & molecules)
             fout_size << t << "\t" << avg_size << "\n";
         }
 
-        // int numberOfMoleculesLeft = N_molecules - numberHoleMolecules;
+        if(numberOfMoleculesLeftBefore != numberOfMoleculesLeftAfter) fout_moleculesTime<<t<<"\t"<<numberOfMoleculesLeftBefore<<"\n";
 
-        // fout_moleculesTime<<t<<"\t"<<numberOfMoleculesLeft<<"\n";
-
+        numberOfMoleculesLeftBefore = N_molecules - numberHoleMolecules;
         std::vector<int> infoMove = infoMoveMolecule();
         int numberMolecule = infoMove[0];
         int movement = infoMove[1];
         updateGrid(molecules[numberMolecule], 1);
         molecules[numberMolecule].moveMolecule(movement,maxLatticeSize,containerHoleSize,numberHoleMolecules); //Se mueve la molécula.
         updateGrid(molecules[numberMolecule], 0);
-
+        numberOfMoleculesLeftAfter = N_molecules - numberHoleMolecules;
     }
 
                                 fout.close();
@@ -250,13 +251,13 @@ void Cream::evolve2(std::vector<Molecule> & molecules)
 
                                 fout.close();
 
-//Mostrar el arreglo final de partículas:
-                                fout.open("datos0.txt");
+// //Mostrar el arreglo final de partículas:
+//                                 fout.open("datos0.txt");
 
-                                for (int i=0;i<N_molecules;i++) {
-                                    fout<<molecules[i].position[0]<<"\t"<<molecules[i].position[1]<<"\n";
-                                }
-                                fout.close();
+//                                 for (int i=0;i<N_molecules;i++) {
+//                                     fout<<molecules[i].position[0]<<"\t"<<molecules[i].position[1]<<"\n";
+//                                 }
+//                                 fout.close();
 
 }
 
