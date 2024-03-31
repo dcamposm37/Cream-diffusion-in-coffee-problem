@@ -108,29 +108,31 @@ void Cream::evolve(std::vector<Molecule> & molecules)
     std::ofstream fout_size;
     std::ofstream fout_moleculesTime;
 
+
+
     std::string entropyFileName  = "EntropyVsTime" + std::to_string(maxLatticeSize) + "x" + std::to_string(maxLatticeSize) + ".txt";
     fout.open(entropyFileName);
     fout_size.open("SizeVsTime.txt");
     fout_moleculesTime.open("moleculesVsTime.txt");
-
     int numberOfMoleculesLeftBefore = N_molecules - numberHoleMolecules; //Variables adicionales para mandar al archivo el número de moléculas solo cuando cambie.
     int numberOfMoleculesLeftAfter = N_molecules - numberHoleMolecules + 1 ;
 
     for (int t=0;t<N_iterations;t++) {
 
-        // if(true){
-        if(t%1000==0){ //Se limita la cantidad de datos que tiene cada archivo para facilitar su graficación.
+        if(true){
+        // if(t%1000==0){ //Se limita la cantidad de datos que tiene cada archivo para facilitar su graficación.
             fout <<t<<"\t"<<entropy<<"\n";
             fout_size << t << "\t" <<size<< "\n";
         }
+
         if(numberOfMoleculesLeftBefore != numberOfMoleculesLeftAfter) fout_moleculesTime<<t<<"\t"<<numberOfMoleculesLeftBefore<<"\n";
         numberOfMoleculesLeftBefore = N_molecules - numberHoleMolecules;
-
         std::vector<int> infoMove = infoMoveMolecule();
         int numberMolecule = infoMove[0];
         int movement = infoMove[1];
         updateGrid(molecules[numberMolecule], movement); //Se gestiona cómo se actualiza la grilla y así mismo cálculos de entropía y size.
         numberOfMoleculesLeftAfter = N_molecules - numberHoleMolecules;
+
     }
 
     fout.close();
