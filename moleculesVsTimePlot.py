@@ -11,7 +11,7 @@ def proposed_model(x,tau,A):
 t, molecules= np.genfromtxt('moleculesVsTime.txt', unpack=True, usecols=(0, 1))
 
 
-# Ajuste
+# Se ajusta al modelo propuesto. Se explica la elección de valores iniciales en el informe.
 parameters, covarian_matrix = curve_fit(proposed_model, t, molecules, p0=[3.3,400])
 tau = parameters[0]
 A = parameters[1]

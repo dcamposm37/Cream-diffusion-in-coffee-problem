@@ -15,10 +15,3 @@ std::vector<int> pos_ini(int latticesize, std::mt19937 &gen) {
     return {random1, random2};
 }
 
-// int main() {
-//     std::vector<int> ini_mol = pos_ini(10);
-//     std::cout << random_step() << std::endl; // Imprime primera función
-//     std::cout << ini_mol[0] << std::endl; // Imprime segunda función
-    
-//     return 0;
-// }

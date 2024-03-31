@@ -25,7 +25,7 @@ for ii in range (0,numberValues):
     #Se encuentra el valor donde se alcanza el equilibrio.
     index = np.where(entropy < max) #Índices donde se debe hacer el ajuste.
     index = index[0]
-    t_equilibrium[ii] = t_entropy[index][-1]
+    t_equilibrium[ii] = t_entropy[index][-1] #El último índice es donde aproximadamente se alcanza el equilibrio.
     indexX= docSize[ii].find('x')
     sizes[ii] = float(docSize[ii][0:indexX])
 
