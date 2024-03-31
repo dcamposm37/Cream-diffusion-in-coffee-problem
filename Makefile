@@ -23,6 +23,13 @@ cream_test.x: cream_test.o cream.o random69.o
 test: cream_test.x
 	./cream_test.x
 
+plot_size: sizeVsTimePlot.py
+	python3 sizeVsTimePlot.py 
+
+plot_entropy: EntropyPlot.py
+	python3 EntropyPlot.py
+
+
 
 # plot.py: datos0.txt datos1.txt
 
@@ -31,4 +38,4 @@ test: cream_test.x
 
 
 clean:
-	rm -f *.o *.x EntropyVsTime*.txt SizeVsTime.txt moleculesVsTime.txt *.pdf
+	rm -f *.o *.x EntropyVsTime*.txt SizeVsTime.txt moleculesVsTime.txt *.png

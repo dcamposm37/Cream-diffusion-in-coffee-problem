@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 from scipy.stats import pearsonr
 
+plt.style.use('https://github.com/dhaitz/matplotlib-stylesheets/raw/master/pitayasmoothie-light.mplstyle')
+
 def lineal_model(x, a, b):
     return a*x + b
 
@@ -25,13 +27,13 @@ fig, axes = plt.subplots(figsize=(6, 6))
 
 axes.scatter(t, size, marker='.', color='black', label= 'Size(t)')
 
-axes.plot(t, sizeAdjusted, color='red',label=r'{} $t^{{1/2}}$ + {}  $R^2$ ={}'.format(round(b,5),round(a,5),round(r2,4)))
+axes.plot(t, sizeAdjusted, color='red',label=r'{} $t^{{1/2}}$ + {}  $R^2$ ={}'.format(round(b,2),round(a,3),round(r2,4)))
 
 # Se ajustan demás detalles del gráfico.
 
 axes.set_xlabel('t', fontsize=12)
 axes.set_ylabel('Size', fontsize=12)
-axes.set_tittle("Size of the drop  Vs t")
-axes.legend(loc='upper left')
+axes.set_title("Size of the drop  Vs t")
+axes.legend()
 axes.grid(True, linestyle='--')
-fig.savefig('sizeVsTimePlot.pdf')
+fig.savefig('sizeVsTimePlot.png')
