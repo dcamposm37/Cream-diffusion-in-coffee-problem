@@ -43,6 +43,7 @@ Cream::Cream(int randomSeed, int nMol, int nIterations, int latticesize, int max
     gridBins = gridbins;
     grid.resize(gridbins*gridbins,0);
     containerHoleSize = (maxLatticeSize*10)/50;
+    N_moleculesD = static_cast<double>(N_molecules);
 }
 
 std::vector<int> Cream::getGrid(void){
@@ -51,13 +52,16 @@ std::vector<int> Cream::getGrid(void){
 
 void Cream::initializeMoleculesGrid(std::vector<Molecule> & molecules){
     int i;
-
+    double N_moleculesD = static_cast<double>(N_molecules);
     for(i=0;i<N_molecules;i++){
         std::vector<int> pos = pos_ini(latticeSize,gen); //Devuelve la posición inicial en formato {x,y}
         molecules[i].setPosition(pos);
+        size += std::pow(pos[0], 2) + std::pow(pos[1], 2);
         fillInitialGrid(pos);
     }
 
+    entropyPerTimeStep(); //Inicializa entropía.
+    size = size/N_moleculesD; //Inicializa size.
 }
 
 void Cream::fillInitialGrid(std::vector<int> pos){
@@ -103,31 +107,21 @@ void Cream::evolve(std::vector<Molecule> & molecules)
     fout.open(entropyFileName);
     fout_size.open("SizeVsTime.txt");
     fout_moleculesTime.open("moleculesVsTime.txt");
+    int numberOfMoleculesLeftBefore = N_molecules - numberHoleMolecules;
+    int numberOfMoleculesLeftAfter = N_molecules - numberHoleMolecules + 1 ;
 
-     int numberOfMoleculesLeftBefore = N_molecules - numberHoleMolecules;
-      int numberOfMoleculesLeftAfter = N_molecules - numberHoleMolecules + 1 ;
-        for (int t=0;t<N_iterations;t++) {
+    for (int t=0;t<N_iterations;t++) {
 
-
-
-        if (t%1000 == 0){
-//        if(false){
-            double entropy = entropyPerTimeStep();
-            double avg_size = size(molecules);
-
-            fout<<t<<"\t"<<entropy<<"\n";
-            fout_size << t << "\t" << avg_size << "\n";
-        }
-
-        if(numberOfMoleculesLeftBefore != numberOfMoleculesLeftAfter) fout_moleculesTime<<t<<"\t"<<numberOfMoleculesLeftBefore<<"\n";
-
-        numberOfMoleculesLeftBefore = N_molecules - numberHoleMolecules;
+            if(t%1000==0){
+            fout <<t<<"\t"<<entropy<<"\n";
+            fout_size << t << "\t" <<size<< "\n";
+            }
+            if(numberOfMoleculesLeftBefore != numberOfMoleculesLeftAfter) fout_moleculesTime<<t<<"\t"<<numberOfMoleculesLeftBefore<<"\n";
+            numberOfMoleculesLeftBefore = N_molecules - numberHoleMolecules;
         std::vector<int> infoMove = infoMoveMolecule();
         int numberMolecule = infoMove[0];
         int movement = infoMove[1];
-        updateGrid(molecules[numberMolecule], 1);
-        molecules[numberMolecule].moveMolecule(movement,maxLatticeSize,containerHoleSize,numberHoleMolecules); //Se mueve la molécula.
-        updateGrid(molecules[numberMolecule], 0);
+        updateGrid(molecules[numberMolecule], movement);
         numberOfMoleculesLeftAfter = N_molecules - numberHoleMolecules;
     }
 
@@ -145,8 +139,7 @@ void Cream::evolve(std::vector<Molecule> & molecules)
 
 }
 
-double Cream::entropyPerTimeStep(void){
-    double N_moleculesD = static_cast<double>(N_molecules);
+void Cream::entropyPerTimeStep(void){
     double S=0;
     for(int i=0;i<gridBins*gridBins;i++) {
         double probabilityi = grid[i]/N_moleculesD;
@@ -155,18 +148,21 @@ double Cream::entropyPerTimeStep(void){
         }
         S+= std::log(probabilityi)*probabilityi;
     }
-    return -S;
+    entropy = -S;
 }
 
 
 
 
-void Cream::updateGrid(Molecule mol,int flag){
+void Cream::updateGrid(Molecule &mol,int movement){
+
+
     std::vector<int> pos = mol.position;
     bool xLimit = false;
     bool yLimit = false;
     int x = pos[0];
     int y = pos[1];
+
     double Mx;
     double My;
 
@@ -198,28 +194,93 @@ void Cream::updateGrid(Molecule mol,int flag){
         }
     }
 
-    int MxI = static_cast<int>(Mx);
-    int MyI = static_cast<int>(My);
+    int MxI_B = static_cast<int>(Mx);
+    int MyI_B = static_cast<int>(My);
 
-    if (flag==0) {
-        grid[MyI*gridBins + MxI] += 1;
+    mol.moveMolecule(movement,maxLatticeSize,containerHoleSize,numberHoleMolecules); //Se mueve la molécula.
+
+    pos = mol.position;
+    xLimit = false;
+    yLimit = false;
+    int x_B = x;
+    int y_B = y;
+    x = pos[0];
+    y = pos[1];
+
+
+    if((x != limit) && (y != limit)){
+        Mx = (pos[0] + valDistance)/ancho; //Índice de la columna.
+        My = (pos[1] + valDistance)/ancho; //Índice de la fila.
     }
-    else {
-        grid[MyI*gridBins + MxI] -= 1;
+    else{ //Uno de los dos es límite.
+
+        if(x==limit) {
+            Mx = gridBins-1;
+            xLimit = true;
+        }
+
+        if(y==limit) {
+            My = gridBins-1;
+            yLimit = true;}
+
+        if(xLimit == true && yLimit == false){
+            My = (pos[1] + valDistance)/ancho; //Índice de la fila.
+        }
+        else if (xLimit == false && yLimit == true) {
+            Mx = (pos[0] + valDistance)/ancho; //Índice de la columna.
+        }
     }
+
+    int MxI_A = static_cast<int>(Mx);
+    int MyI_A = static_cast<int>(My);
+
+
+    if((MxI_A != MxI_B) || (MyI_A != MyI_B)){
+
+    int index_B = MyI_B*gridBins + MxI_B;
+    int index_A = MyI_A*gridBins + MxI_A;
+
+
+    double probability_B = grid[index_B]/N_moleculesD;
+    double probability_A = grid[index_A]/N_moleculesD;
+
+    if(probability_B > 0.001){
+        double S_B = std::log(probability_B)*probability_B;
+
+        entropy += S_B; //Le quito el valor S_B, pues S_B < 0
+
+    }
+    if(probability_A > 0.001){
+        double S_A = std::log(probability_A)*probability_A;
+        entropy += S_A; //Le agrego el valor S_A, pues S_A < 0
+            }
+
+
+    grid[index_B] -= 1;
+    grid[index_A] += 1;
+
+    probability_B = grid[index_B]/N_moleculesD;
+    probability_A = grid[index_A]/N_moleculesD;
+
+    if(probability_B > 0.001){
+        double S_B = std::log(probability_B)*probability_B;
+
+        entropy -= S_B; //Le quito el valor S_B, pues S_B < 0
+
+    }
+    if(probability_A > 0.001){
+        double S_A = std::log(probability_A)*probability_A;
+        entropy -= S_A; //Le agrego el valor S_A, pues S_A < 0
+            }
+    }
+
+
+    size += -(std::pow(x_B, 2) + std::pow(y_B, 2))/N_moleculesD;
+    size += +(std::pow(x, 2) + std::pow(y, 2))/N_moleculesD;
+
 }
 
 
-// // Función que calcula el tamaño promedio según la definición del libro
-double Cream::size(std::vector<Molecule> & molecules) {
-    double N_moleculesD = static_cast<double>(N_molecules);
-    double r = 0;
-    for (int ii = 0; ii < N_molecules; ++ii) {
-        r += std::pow(molecules[ii].position[0], 2) + std::pow(molecules[ii].position[1], 2);
-    }
-    return r/N_moleculesD;
-    // return std::sqrt(r / N_molecules);
-}
 
 void Cream::evolve2(std::vector<Molecule> & molecules)
 {
@@ -231,21 +292,13 @@ void Cream::evolve2(std::vector<Molecule> & molecules)
     fout.open(entropyFileName);
 
     for (int t=0;t<N_iterations;t++) {
-
-        if (t%1000 == 0){
-        // if(true){
-            double entropy = entropyPerTimeStep();
-
-            fout<<t<<"\t"<<entropy<<"\n";
-
+        if(t%1000==0){
+            fout <<t<<"\t"<<entropy<<"\n";
         }
-
         std::vector<int> infoMove = infoMoveMolecule();
         int numberMolecule = infoMove[0];
         int movement = infoMove[1];
-        updateGrid(molecules[numberMolecule], 1);
-        molecules[numberMolecule].moveMolecule(movement,maxLatticeSize,containerHoleSize,numberHoleMolecules); //Se mueve la molécula.
-        updateGrid(molecules[numberMolecule], 0);
+        updateGrid(molecules[numberMolecule], movement);
 
     }
 

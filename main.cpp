@@ -1,4 +1,4 @@
-#include "cream.h"
+#include "cream2.h"
 #include "random69.h"
 #include <iostream>
 #include <fstream>
@@ -46,14 +46,14 @@ int main(int argc, char const *argv[])
     cup.evolve(molecules);
 
 
-    //  for (int size : maxLatticeSizes) {
+     for (int size : maxLatticeSizes) {
 
-    //          std::vector<Molecule> molecules2(N_mol);
+             std::vector<Molecule> molecules2(N_mol);
 
-    //          Cream cup2(seed,N_mol,n_iterations,latticesize, size, gridbins);
-    //          cup2.initializeMoleculesGrid(molecules2);
-    //          cup2.evolve2(molecules2);
-    // }
+             Cream cup2(seed,N_mol,n_iterations,latticesize, size, gridbins);
+             cup2.initializeMoleculesGrid(molecules2);
+             cup2.evolve2(molecules2);
+    }
 
 
 

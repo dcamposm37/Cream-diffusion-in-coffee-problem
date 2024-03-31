@@ -32,7 +32,9 @@ class Cream {
     std::vector<int> grid;
     int containerHoleSize;
     int numberHoleMolecules=0;
-
+    double entropy=0;
+    double size=0;
+    double N_moleculesD;
 
 public:
 
@@ -47,17 +49,11 @@ public:
     void evolve2(std::vector<Molecule> & molecules);
     std::vector<int> infoMoveMolecule(void);
 
-    double entropyPerTimeStep(void);
-    void updateGrid(Molecule mol,int flag);
+    void entropyPerTimeStep(void);
+    void updateGrid(Molecule &mol,int flag);
 
-    // void moveMolecule(Molecule & molecule);
 
-    // int time_step = 0;
 
-    // void total_positions();
-
-    // // double entropy(nsample);
-    double size(std::vector<Molecule> & molecules);
 
 
 };

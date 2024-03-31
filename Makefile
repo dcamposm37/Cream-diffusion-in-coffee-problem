@@ -1,4 +1,4 @@
-CXXFLAGS= -g -fsanitize=leak,address,undefined
+CXXFLAGS= -g -fsanitize=leak,address,undefined -o3
 LDFLAGS= -l Catch2Main -l Catch2
 all: main.x
 
@@ -10,10 +10,10 @@ cream.o random69.o main.o: cream.cpp random69.cpp main.cpp input.txt
 main.x: cream.o random69.o main.o
 	g++	${CXXFLAGS} $^ -o main.x
 	./main.x
-# 	python3 EntropyPlot.py
-# 	python3 EntropyDifferentSizesPlot.py
-#	python3	sizeVsTimePlot.py
-#	python3 moleculesVsTimePlot.py
+	python3 EntropyPlot.py
+	python3 EntropyDifferentSizesPlot.py
+	python3	sizeVsTimePlot.py
+	python3 moleculesVsTimePlot.py
 
 cream_test.o: cream_test.cpp
 	g++ -c $^ -o $@
