@@ -11,6 +11,7 @@ void Molecule::moveMolecule(int movement, int maxLattice, int containerHoleSize,
         /*Se cuentan las moléculas que se salen por un hueco de tamaño "containerHolseSize" ubicado en la pared derecha.
      Si una molécula sale por el hueco, cambia su atributo "counted" a true, por lo que no volverá a ser contada. Lo anterior para
     resolver el punto 1, 3 y 4 con un solo código. */
+
     int containerHoleSizeD2= containerHoleSize/2;
     int x = position[0];
     int y = position[1];
@@ -25,9 +26,6 @@ void Molecule::moveMolecule(int movement, int maxLattice, int containerHoleSize,
        los números impares a decrementos. Además si el número es 0 ó 1, corresponde desplazamientos en x; si el número es 2 ó 3 corresponde
        a desplazaminetos en y.
        Se establecen condicionales de modo que cuando una molécula llegue al límite se congele en esa coordenada. */
-
-
-
 
     if((movement == 0) && (x < max)) position[0] +=1;
     if((movement == 1) && (x > -max)) position[0]-=1;
@@ -57,16 +55,15 @@ void Cream::initializeMoleculesGrid(std::vector<Molecule> & molecules){
     for(i=0;i<N_molecules;i++){
         std::vector<int> pos = pos_ini(latticeSize,gen); //Devuelve la posición inicial en formato {x,y}
         molecules[i].setPosition(pos);
-
         fillInitialGrid(pos);
     }
 
 }
 
 void Cream::fillInitialGrid(std::vector<int> pos){
-    int Mx;
-    int My;
-    int ancho = maxLatticeSize/gridBins;
+    double Mx;
+    double My;
+    double ancho = maxLatticeSize/gridBins;
     int valDistance = maxLatticeSize/2;
     /* Se llena la grilla de la siguiente forma: Como sabemos el tamaño de la grilla (maxLatticeSize) y
        el número de cajas que tendrá por cada lado (gridBins), entonces el ancho de cada cuadrado será maxLatticeSize/gridBins.
@@ -78,7 +75,11 @@ void Cream::fillInitialGrid(std::vector<int> pos){
     Mx = (pos[0] + valDistance)/ancho; //Índice de la columna.
     My = (pos[1] + valDistance)/ancho; //Índice de la fila.
 
-    grid[My*gridBins + Mx] += 1;
+    int MxI = static_cast<int>(Mx);
+    int MyI = static_cast<int>(My);
+
+
+    grid[MyI*gridBins + MxI] += 1;
 }
 
 
@@ -103,8 +104,7 @@ void Cream::evolve(std::vector<Molecule> & molecules)
     fout_size.open("SizeVsTime.txt");
     fout_moleculesTime.open("moleculesVsTime.txt");
 
-
-    for (int t=0;t<N_iterations;t++) {
+        for (int t=0;t<N_iterations;t++) {
 
 
 
@@ -118,6 +118,7 @@ void Cream::evolve(std::vector<Molecule> & molecules)
         }
 
         // int numberOfMoleculesLeft = N_molecules - numberHoleMolecules;
+
         // fout_moleculesTime<<t<<"\t"<<numberOfMoleculesLeft<<"\n";
 
         std::vector<int> infoMove = infoMoveMolecule();
@@ -148,12 +149,11 @@ double Cream::entropyPerTimeStep(void){
     double S=0;
     for(int i=0;i<gridBins*gridBins;i++) {
         double probabilityi = grid[i]/N_moleculesD;
-        if(probabilityi == 0){
+        if(probabilityi < 0.001){
             continue;
         }
         S+= std::log(probabilityi)*probabilityi;
     }
-
     return -S;
 }
 
@@ -166,11 +166,11 @@ void Cream::updateGrid(Molecule mol,int flag){
     bool yLimit = false;
     int x = pos[0];
     int y = pos[1];
-    int Mx;
-    int My;
+    double Mx;
+    double My;
 
     int limit = maxLatticeSize/2;
-    int ancho = maxLatticeSize/gridBins;
+    double ancho = static_cast<double>(maxLatticeSize)/gridBins;
     int valDistance = maxLatticeSize/2;
 
 
@@ -197,11 +197,14 @@ void Cream::updateGrid(Molecule mol,int flag){
         }
     }
 
+    int MxI = static_cast<int>(Mx);
+    int MyI = static_cast<int>(My);
+
     if (flag==0) {
-        grid[My*gridBins + Mx] += 1;
+        grid[MyI*gridBins + MxI] += 1;
     }
     else {
-        grid[My*gridBins + Mx] -= 1;
+        grid[MyI*gridBins + MxI] -= 1;
     }
 }
 
@@ -216,6 +219,71 @@ double Cream::size(std::vector<Molecule> & molecules) {
     return r/N_moleculesD;
     // return std::sqrt(r / N_molecules);
 }
+
+void Cream::evolve2(std::vector<Molecule> & molecules)
+{
+
+    //Imprime iniciales.
+    std::ofstream fout;
+
+    std::string entropyFileName  = "EntropyVsTime" + std::to_string(maxLatticeSize) + "x" + std::to_string(maxLatticeSize) + ".txt";
+    fout.open(entropyFileName);
+
+    for (int t=0;t<N_iterations;t++) {
+
+        if (t%1000 == 0){
+        // if(true){
+            double entropy = entropyPerTimeStep();
+
+            fout<<t<<"\t"<<entropy<<"\n";
+
+        }
+
+        std::vector<int> infoMove = infoMoveMolecule();
+        int numberMolecule = infoMove[0];
+        int movement = infoMove[1];
+        updateGrid(molecules[numberMolecule], 1);
+        molecules[numberMolecule].moveMolecule(movement,maxLatticeSize,containerHoleSize,numberHoleMolecules); //Se mueve la molécula.
+        updateGrid(molecules[numberMolecule], 0);
+
+    }
+
+                                fout.close();
+
+//Mostrar el arreglo final de partículas:
+                                fout.open("datos0.txt");
+
+                                for (int i=0;i<N_molecules;i++) {
+                                    fout<<molecules[i].position[0]<<"\t"<<molecules[i].position[1]<<"\n";
+                                }
+                                fout.close();
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // // Función que retorna las posiciones de todas las moleculas
 // void Cream::total_positions(){

@@ -44,6 +44,7 @@ public:
 
     void fillInitialGrid(std::vector<int> pos);
     void evolve(std::vector<Molecule> & molecules);
+    void evolve2(std::vector<Molecule> & molecules);
     std::vector<int> infoMoveMolecule(void);
 
     double entropyPerTimeStep(void);

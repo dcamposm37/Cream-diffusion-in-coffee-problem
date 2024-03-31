@@ -36,6 +36,8 @@ int main(int argc, char const *argv[])
     const int maxLatticesize = 200; //Preferibles números divisibles entre 2.
     const int gridbins = 8; //Cantidad de cajas que tendrá por lado. La grilla será cuadrada.
 
+    const std::vector<int> maxLatticeSizes {50,100,150,250,300,350}; //Punto 2
+
 
     std::vector<Molecule> molecules(N_mol);
 
@@ -43,6 +45,16 @@ int main(int argc, char const *argv[])
 
     cup.initializeMoleculesGrid(molecules);
     cup.evolve(molecules);
+
+
+     for (int size : maxLatticeSizes) {
+
+             std::vector<Molecule> molecules2(N_mol);
+
+             Cream cup2(seed,N_mol,n_iterations,latticesize, size, gridbins);
+             cup2.initializeMoleculesGrid(molecules2);
+             cup2.evolve2(molecules2);
+    }
 
 
 
