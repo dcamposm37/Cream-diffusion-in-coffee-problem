@@ -4,10 +4,11 @@
 std::vector<std::vector<int>> POSS(int dim, int mol, std::vector<std::vector<int>> MOL){
     int dim2= dim/2;
     if(dim % 2 == 0){
-        int N1=mol/4;
-        int N2=mol/4;
-        int N3=mol/4;
-        int N4=mol/4;
+        int N1=mol/20;
+        int N2=mol/20;
+        int N3=mol/20;
+        int N4=mol/20;
+
         int k=N1+N2+N3+N4;
         if (mol*k<mol*mol){
             for(int uu=k; uu<mol;uu++){
@@ -46,18 +47,6 @@ std::vector<std::vector<int>> POSS(int dim, int mol, std::vector<std::vector<int
     }
 }
 
-std::vector<int> step(int SEED,int mol){
-
-    std::vector<int> Prob(2);
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> distrib(1,4);
-    std::uniform_int_distribution<> dis(0,mol-1);
-    Prob[0]=distrib(gen);
-    Prob[1]=dis(gen);
-    return Prob;
-}
-
 std::vector<std::vector<int>> MOVE(std::vector<int> Pr, std::vector<std::vector<int>> MOL, int dim){
     int M1=Pr[0];
     int M2=Pr[1];
@@ -92,7 +81,6 @@ std::vector<std::vector<int>> MOVE(std::vector<int> Pr, std::vector<std::vector<
         }
         MOL=HOLE(MOL,dim);
         return MOL;
-
     }
 }
 
