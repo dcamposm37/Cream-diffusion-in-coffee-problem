@@ -39,35 +39,35 @@ int main(int argc, char const *argv[])
     const std::vector<int> maxLatticeSizes {50,100,150,250,300,350}; //Arreglo para estudiar los tamaños que pide el punto 2.
 
 
-    // std::vector<Molecule> molecules(N_mol); //Vector que almacena todas las moléculas. Clase Molecule.
+    std::vector<Molecule> molecules(N_mol); //Vector que almacena todas las moléculas. Clase Molecule.
 
-    // Cream cup(seed,N_mol,n_iterations,latticesize, maxLatticesize, gridbins); //Objeto cup de la clase Cream.
-    // cup.initializeMoleculesGrid(molecules); //Se inicializan las moléculas, grilla, entropía y size.
-    // cup.evolve(molecules); //Evoluciona el sistema.
+    Cream cup(seed,N_mol,n_iterations,latticesize, maxLatticesize, gridbins); //Objeto cup de la clase Cream.
+    cup.initializeMoleculesGrid(molecules); //Se inicializan las moléculas, grilla, entropía y size.
+    cup.evolve(molecules); //Evoluciona el sistema.
 
-    // for (int size : maxLatticeSizes) { //Se recorren los distintos tamaños.
+    for (int size : maxLatticeSizes) { //Se recorren los distintos tamaños.
 
-    //     std::vector<Molecule> molecules2(N_mol);
-    //     Cream cup2(seed,N_mol,n_iterations,latticesize, size, gridbins);
-    //     cup2.initializeMoleculesGrid(molecules2);
-    //     cup2.evolve2(molecules2);
-    // }
-
-    const std::vector<int> systemSize {100,200,300,400,500,600,700,800,900,1000,2000};
-
-    std::ofstream fout_computingTime;
-    fout_computingTime.open("computingTime_O.txt");
-
-        for (int N : systemSize) { //Se recorren los distintos tamaños.
-        const auto start{std::chrono::steady_clock::now()};
-        std::vector<Molecule> molecules(N);
-        Cream cup(seed,N,n_iterations,latticesize, maxLatticesize, gridbins); //Objeto cup de la clase Cream.
-        cup.initializeMoleculesGrid(molecules); //Se inicializan las moléculas, grilla, entropía y size.
-        cup.evolve(molecules); //Evoluciona el sistema.
-        const auto end{std::chrono::steady_clock::now()};
-        double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
-        fout_computingTime<<N<<"\t"<<elapsed_seconds<<"\n";
+        std::vector<Molecule> molecules2(N_mol);
+        Cream cup2(seed,N_mol,n_iterations,latticesize, size, gridbins);
+        cup2.initializeMoleculesGrid(molecules2);
+        cup2.evolve2(molecules2);
     }
-        fout_computingTime.close();
+    //Computing time code.
+    // const std::vector<int> systemSize {100,200,300,400,500,600,700,800,900,1000,2000};
+
+    // std::ofstream fout_computingTime;
+    // fout_computingTime.open("computingTime_O.txt");
+
+    //     for (int N : systemSize) { //Se recorren los distintos tamaños.
+    //     const auto start{std::chrono::steady_clock::now()};
+    //     std::vector<Molecule> molecules(N);
+    //     Cream cup(seed,N,n_iterations,latticesize, maxLatticesize, gridbins); //Objeto cup de la clase Cream.
+    //     cup.initializeMoleculesGrid(molecules); //Se inicializan las moléculas, grilla, entropía y size.
+    //     cup.evolve(molecules); //Evoluciona el sistema.
+    //     const auto end{std::chrono::steady_clock::now()};
+    //     double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
+    //     fout_computingTime<<N<<"\t"<<elapsed_seconds<<"\n";
+    // }
+    //     fout_computingTime.close();
 
 }
