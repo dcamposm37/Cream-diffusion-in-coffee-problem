@@ -1,4 +1,4 @@
-#include "cream2.h"
+#include "cream.h"
 #include "random69.h"
 #include <iostream>
 #include <fstream>
