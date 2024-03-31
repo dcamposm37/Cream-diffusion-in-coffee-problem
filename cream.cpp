@@ -6,21 +6,17 @@ void Molecule::setPosition(std::vector<int> pos){
     position = pos;
 }
 
-void Molecule::setCountedTrue(void){
-    counted=true;
-}
-
 void Molecule::moveMolecule(int movement, int maxLattice, int containerHoleSize, int &numberHoleMolecules){
 
         /*Se cuentan las moléculas que se salen por un hueco de tamaño "containerHolseSize" ubicado en la pared derecha.
      Si una molécula sale por el hueco, cambia su atributo "counted" a true, por lo que no volverá a ser contada. Lo anterior para
     resolver el punto 1, 3 y 4 con un solo código. */
-    int containerHoleSizeD2= containerHoleSize;
+    int containerHoleSizeD2= containerHoleSize/2;
     int x = position[0];
     int y = position[1];
+    int max = maxLattice/2; //Si maxLattice no es divisible entre 2, se trunca.
 
-
-    if((counted==false) && (movement == 0) && (x==100) && (y<containerHoleSizeD2) && (y>-containerHoleSizeD2)){
+    if((counted==false) && (movement == 0) && (x==max) && (y<containerHoleSizeD2) && (y>-containerHoleSizeD2)){
         counted=true;
         numberHoleMolecules+=1;
     }
@@ -30,17 +26,13 @@ void Molecule::moveMolecule(int movement, int maxLattice, int containerHoleSize,
        a desplazaminetos en y.
        Se establecen condicionales de modo que cuando una molécula llegue al límite se congele en esa coordenada. */
 
-    int max = maxLattice/2; //Si maxLattice no es divisible entre 2, se trunca.
+
 
 
     if((movement == 0) && (x < max)) position[0] +=1;
     if((movement == 1) && (x > -max)) position[0]-=1;
     if((movement == 2) && (y < max)) position[1] +=1;
     if((movement == 3) && (y > -max)) position[1] -=1;
-
-
-
-
 }
 
 
@@ -105,24 +97,19 @@ void Cream::evolve(std::vector<Molecule> & molecules)
     std::ofstream fout;
     std::ofstream fout_size;
     std::ofstream fout_moleculesTime;
-    // fout.open("datos0.txt");
-
-    // for (int i=0;i<N_molecules;i++) {
-    // fout<<i<<"\t"<<molecules[i].position[0]<<"\t"<<molecules[i].position[1]<<"\n";
-    //  }
-    //  fout.close();
-
 
     std::string entropyFileName  = "EntropyVsTime" + std::to_string(maxLatticeSize) + "x" + std::to_string(maxLatticeSize) + ".txt";
     fout.open(entropyFileName);
     fout_size.open("SizeVsTime.txt");
     fout_moleculesTime.open("moleculesVsTime.txt");
-    int numberOfMoleculesLeft = N_molecules - numberHoleMolecules;
-    int numberOfMoleculesLeftAfterMove= numberOfMoleculesLeft+1;
+
+
     for (int t=0;t<N_iterations;t++) {
 
 
+
         if (t%1000 == 0){
+        // if(true){
             double entropy = entropyPerTimeStep();
             double avg_size = size(molecules);
 
@@ -130,22 +117,30 @@ void Cream::evolve(std::vector<Molecule> & molecules)
             fout_size << t << "\t" << avg_size << "\n";
         }
 
-        if(numberOfMoleculesLeftAfterMove != numberOfMoleculesLeft)  fout_moleculesTime<<t<<"\t"<<numberOfMoleculesLeft<<"\n";
+        // int numberOfMoleculesLeft = N_molecules - numberHoleMolecules;
+        // fout_moleculesTime<<t<<"\t"<<numberOfMoleculesLeft<<"\n";
 
-
-        numberOfMoleculesLeft = N_molecules - numberHoleMolecules;
         std::vector<int> infoMove = infoMoveMolecule();
         int numberMolecule = infoMove[0];
         int movement = infoMove[1];
         updateGrid(molecules[numberMolecule], 1);
         molecules[numberMolecule].moveMolecule(movement,maxLatticeSize,containerHoleSize,numberHoleMolecules); //Se mueve la molécula.
         updateGrid(molecules[numberMolecule], 0);
-        numberOfMoleculesLeftAfterMove = N_molecules - numberHoleMolecules;
+
     }
 
                                 fout.close();
                                 fout_size.close();
                                 fout_moleculesTime.close();
+
+//Mostrar el arreglo final de partículas:
+                                // fout.open("datos0.txt");
+
+                                // for (int i=0;i<N_molecules;i++) {
+                                //     fout<<molecules[i].position[0]<<"\t"<<molecules[i].position[1]<<"\n";
+                                // }
+                                // fout.close();
+
 }
 
 double Cream::entropyPerTimeStep(void){

@@ -16,7 +16,7 @@ class Molecule {
 public:
     void setPosition(std::vector<int> pos);
     void moveMolecule(int movement, int maxLattice, int containerHoleSize,int &numberHoleMolecules);
-    void setCountedTrue(void);
+
     friend class Cream; //Se usa para que la clase Cream pueda acceder a los atributos de cualquier molécula.
 };
 

@@ -22,9 +22,9 @@ r2, _ = pearsonr(molecules, moleculesAdjusted)
 fig, axes = plt.subplots(figsize=(6,6))
 
 
-axes.scatter(t, molecules, marker='.', color='black', label='Molecules(t)')
+axes.plot(t, molecules, '-', color='black', label='Molecules(t)')
 
-axes.plot(t, moleculesAdjusted, color='red',label= f'tau={tau}, r2={r2}')
+#axes.plot(t, proposed_model(t,300000,50), color='red',label= f'tau={tau}, r2={r2}')
 
 # Se ajustan demás detalles del gráfico.
 
