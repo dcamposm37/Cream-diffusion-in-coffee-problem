@@ -1,5 +1,5 @@
-#CXXFLAGS= -g -fsanitize=leak,address,undefined -o3
-CXXFLAGS = -o3
+CXXFLAGS= -g -fsanitize=leak,address,undefined -o3
+#CXXFLAGS = -o3
 LDFLAGS= -l Catch2Main -l Catch2
 all: main.x
 
