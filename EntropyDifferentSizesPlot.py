@@ -30,7 +30,7 @@ for ii in range (0,numberValues):
     sizes[ii] = float(docSize[ii][0:indexX])
 
 
-if(np.all(t_equilibrium == t_equilibrium[0]) or (len(index)==0):
+if(np.all(t_equilibrium == t_equilibrium[0]) or (len(index)==0)):
     print("Hacen falta más iteraciones para encontrar el equilibrio de la entropía de todos los tamaños.")
     exit()
 
