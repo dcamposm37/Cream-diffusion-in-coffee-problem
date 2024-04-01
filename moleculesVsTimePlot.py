@@ -8,8 +8,12 @@ plt.style.use('https://github.com/dhaitz/matplotlib-stylesheets/raw/master/pitay
 def proposed_model(x,tau,A):
     return A*np.exp(-x/(tau*np.power(10,6)))
 
+
 t, molecules= np.genfromtxt('moleculesVsTime.txt', unpack=True, usecols=(0, 1))
 
+if(np.isscalar(molecules)):
+    print("Hacen falta más iteraciones para que las crema salga de la taza.")
+    exit()
 
 # Se ajusta al modelo propuesto. Se explica la elección de valores iniciales en el informe.
 parameters, covarian_matrix = curve_fit(proposed_model, t, molecules, p0=[3.3,400])

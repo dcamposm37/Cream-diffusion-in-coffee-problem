@@ -11,8 +11,7 @@ int main(int argc, char const *argv[])
     std::vector<int> input(4); //Vector que guarda los parámetros de entrada.
 
     std::fstream inputFile;
-    inputFile.open("input.txt", std::fstream::in); //Abre el archivo en modo lectura.
-
+    inputFile.open(argv[1], std::fstream::in); //Abre el archivo en modo lectura.
     if (inputFile.is_open()){  //Se verifica que esté abierto.
         std::string line;
         int inputContador = 0;

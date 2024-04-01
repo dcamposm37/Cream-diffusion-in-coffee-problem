@@ -25,8 +25,8 @@ axes[1].plot(size_O, time_O, '.', color='blue', label=r'Optimized computation ti
 
 # Se ajustan demás detalles del gráfico.
 for i in range(0,2):
-    axes[i].set_xlabel('Size', fontsize=12)
-    axes[i].set_ylabel('Computing time', fontsize=12)
+    axes[i].set_xlabel('Size normalized.', fontsize=12)
+    axes[i].set_ylabel('Computing time normalized.', fontsize=12)
 
     axes[i].legend(loc='upper left')   #
     axes[i].grid(True, linestyle='--')

@@ -119,8 +119,8 @@ void Cream::evolve(std::vector<Molecule> & molecules)
 
     for (int t=0;t<N_iterations;t++) {
 
-        if(true){
-        // if(t%1000==0){ //Se limita la cantidad de datos que tiene cada archivo para facilitar su graficación.
+        // if(true){
+        if(t%1000==0){ //Se limita la cantidad de datos que tiene cada archivo para facilitar su graficación.
             fout <<t<<"\t"<<entropy<<"\n";
             fout_size << t << "\t" <<size<< "\n";
         }

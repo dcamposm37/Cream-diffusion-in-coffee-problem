@@ -14,15 +14,19 @@ t, size= np.genfromtxt('SizeVsTime.txt', unpack=True, usecols=(0, 1))
 entropy = np.genfromtxt('EntropyVsTime200x200.txt', unpack=True, usecols=(1))
 
 #Se encuentra el valor hasta el cual se debe ajustar.
-maximumValueEntropy = np.max(entropy)
-tolerance = 0.2
-max = maximumValueEntropy-tolerance
+maximumValueEntropy = np.max(entropy) - 0.2
+max = maximumValueEntropy
 index = np.where(entropy < max) #Índices donde se debe hacer el ajuste.
 index = index[0]
 t_fit = t[index]
 size_fit = size[index]
 
+if(len(index)==0):
+    print("Hacen falta más datos para calcular el valor donde se equilibra la entropía y por tanto hasta dónde hacer la curva de ajuste.")
+    exit()
 # Ajuste
+
+
 parameters, covarian_matrix = curve_fit(lineal_model, t_fit, size_fit)
 a, b = parameters
 
