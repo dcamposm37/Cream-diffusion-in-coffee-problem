@@ -52,13 +52,17 @@ int main(int argc, char const *argv[])
         cup2.initializeMoleculesGrid(molecules2);
         cup2.evolve2(molecules2);
     }
+    
     //Computing time code.
     // const std::vector<int> systemSize {100,200,300,400,500,600,700,800,900,1000,2000};
 
     // std::ofstream fout_computingTime;
     // fout_computingTime.open("computingTime_O.txt");
-
+    // int iter = 5;
+    
     //     for (int N : systemSize) { //Se recorren los distintos tamaños.
+    // double times =0;
+    //     for(int i=0; i< iter; i++){
     //     const auto start{std::chrono::steady_clock::now()};
     //     std::vector<Molecule> molecules(N);
     //     Cream cup(seed,N,n_iterations,latticesize, maxLatticesize, gridbins); //Objeto cup de la clase Cream.
@@ -66,7 +70,11 @@ int main(int argc, char const *argv[])
     //     cup.evolve(molecules); //Evoluciona el sistema.
     //     const auto end{std::chrono::steady_clock::now()};
     //     double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
-    //     fout_computingTime<<N<<"\t"<<elapsed_seconds<<"\n";
+    //     times += elapsed_seconds;
+    //     std::cout<<"Pasa "<<N<<std::endl;
+    //     }
+    //     double avgTime = times/static_cast<double>(iter);
+    //     fout_computingTime<<N<<"\t"<<avgTime<<"\n";
     // }
     //     fout_computingTime.close();
 
