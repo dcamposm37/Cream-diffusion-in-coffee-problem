@@ -46,7 +46,7 @@ fig, axes = plt.subplots(figsize=(6, 6))
 
 axes.plot(sizes, t_equilibrium, '.', color='black', label=r'$t_{eq}(size)$')
 
-axes.plot(sizes, tEqAdjusted, color='yellow',label=r'{} $sizes^2$ + {} ($R^2$ ={})'.format(round(b,2),round(a,3),round(r2,4)))
+axes.plot(sizes, tEqAdjusted, color='yellow',label=r'{} $sizes^2$ + {} ($R^2$ ={})'.format(round(a,2),round(b,3),round(r2,4)))
 
 
 # Se ajustan demás detalles del gráfico.
